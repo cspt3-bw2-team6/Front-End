@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Controls from "./Controls";
 import TextBox from "./TextBox";
+import Graph from "./Graph/"
 import axiosWithAuth from "../../utilities/axiosWithAuth";
 import "./Game.css";
 
@@ -75,6 +76,7 @@ export default class Game extends Component {
             <TextBox info={this.state} />
           </div>
         </div>
+        <Graph />
       </div>
     );
   }

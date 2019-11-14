@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import "nes.css/css/nes.min.css";
 import "./Form.css";
 
@@ -6,7 +7,8 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      playercode: ""
+      playercode: "",
+      redirect: false
     };
   }
 
@@ -16,10 +18,19 @@ class Form extends Component {
     });
   };
 
+  setRedirect = e => this.setState({ redirect: true });
+
+  redirect = e => {
+    if (this.state.redirect) {
+      localStorage.setItem('playkey',this.state.playercode)
+      return <Redirect to="/game" />;
+    }
+  };
+
   render() {
     return (
       <div className="auth-form-wrapper">
-        <form onSubmit={this.authorize}>
+        <form onSubmit={this.setRedirect}>
           <div className="nes-field auth-input">
             <label htmlFor="username_field">Player Code</label>
             <input
@@ -31,7 +42,12 @@ class Form extends Component {
               onChange={this.inputHandler}
             />
           </div>
-          <button type="submit" className="nes-btn is-primary">
+          {this.redirect()}
+          <button
+            type="submit"
+            onClick={this.setRedirect}
+            className="nes-btn is-primary"
+          >
             Begin Play
           </button>
         </form>

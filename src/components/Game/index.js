@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Controls from "./Controls";
 import TextBox from "./TextBox";
-import config from "../../config";
+// import config from "../../config";
 import "./Game.css";
 
 export default class Game extends Component {
@@ -25,28 +25,28 @@ export default class Game extends Component {
     });
   }
 
-  movePlayer = direction => {
-    config
-      .axiosHeaders()
-      .post("/api/adv/move", { direction })
-      .then(res => {
-        console.log(res);
-        return this.refresh(res.data);
-      })
-      .catch(err => console.log(err));
-  };
+  // movePlayer = direction => {
+  //   config
+  //     .axiosHeaders()
+  //     .post("/api/adv/move", { direction })
+  //     .then(res => {
+  //       console.log(res);
+  //       return this.refresh(res.data);
+  //     })
+  //     .catch(err => console.log(err));
+  // };
 
-  logout = () => {
-    localStorage.clear();
-    this.props.history.push("/login");
-  };
+  // logout = () => {
+  //   localStorage.clear();
+  //   this.props.history.push("/login");
+  // };
 
   componentDidMount() {
-    config
-      .axiosHeaders()
-      .get("/api/adv/init/")
-      .then(res => this.refresh(res.data))
-      .catch(err => console.log(err));
+    // config
+    //   .axiosHeaders()
+    //   .get("/api/adv/init/")
+    //   .then(res => this.refresh(res.data))
+    //   .catch(err => console.log(err));
   }
 
   render() {

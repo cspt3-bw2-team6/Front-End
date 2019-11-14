@@ -6,10 +6,11 @@ const axiosWithAuth = {
 
   axiosHeaders: function() {
     console.log(this.endpoint, localStorage.getItem("key"));
+    let token = localStorage.getItem("key");
     return axios.create({
       baseURL: this.endpoint,
       headers: {
-        Authorization: `Token ${localStorage.getItem("key")}` || null
+        Authorization: "Token " + token || null
       }
     });
   }

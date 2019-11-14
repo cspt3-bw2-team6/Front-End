@@ -1,0 +1,8 @@
+form {
+    max-width: 750px;
+    width: 100%;
+}
+
+.auth-input {
+    margin: 3%;
+}

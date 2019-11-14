@@ -4,7 +4,7 @@
 
 # CS Unit 2 Treasure Hunt
 
-You can find the deployed project at (https://modest-booth-04ab59.netlify.com/).
+You can find the deployed project at https://build-team-6-explorer.netlify.com/.
 
 ## Contributors
 

@@ -22,7 +22,7 @@ class Form extends Component {
 
   redirect = e => {
     if (this.state.redirect) {
-      localStorage.setItem('playkey',this.state.playercode)
+      localStorage.setItem('key',this.state.playercode)
       return <Redirect to="/game" />;
     }
   };

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Controls from "./Controls";
 import TextBox from "./TextBox";
-// import config from "../../config";
+import axiosWithAuth from "../../utilities/axiosWithAuth";
 import "./Game.css";
 
 export default class Game extends Component {
@@ -16,12 +16,10 @@ export default class Game extends Component {
 
   refresh(data) {
     return this.setState({
-      uuid: data.uuid,
-      name: data.name,
       title: data.title,
       description: data.description,
       players: data.players,
-      error_msg: data.error_msg
+      errors: data.errors
     });
   }
 
@@ -42,11 +40,18 @@ export default class Game extends Component {
   // };
 
   componentDidMount() {
-    // config
-    //   .axiosHeaders()
-    //   .get("/api/adv/init/")
-    //   .then(res => this.refresh(res.data))
-    //   .catch(err => console.log(err));
+    axiosWithAuth
+      .axiosHeaders()
+      .get("/api/adv/init/")
+      .then(res => {
+        console.log(res);
+        this.setState({
+          title: res.data.title,
+          description: res.data.description,
+          players: res.data.players,
+          errors: res.data.errors
+        })
+      });
   }
 
   render() {
@@ -59,7 +64,7 @@ export default class Game extends Component {
             type="button"
             onClick={this.logout}
           >
-            <i class="nes-icon close" />
+            <i className="nes-icon close" />
           </button>
         </div>
         <div className="player-panel">

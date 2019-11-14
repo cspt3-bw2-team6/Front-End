@@ -1,0 +1,26 @@
+.controls-wrapper {
+    max-width: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.button-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.vertical-buttons {
+    display: inherit;
+    flex-flow: column;
+}
+.vertical-buttons button {
+    margin: 0 5px;
+}
+.vertical-buttons :first-child {
+    margin-bottom: 30px;
+}
+
+.vertical-buttons :last-child {
+    margin-top: 30px;
+}

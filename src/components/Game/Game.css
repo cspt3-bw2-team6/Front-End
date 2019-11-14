@@ -1,0 +1,19 @@
+.game-wrapper {
+    max-width: 900px;
+    width: 100%
+}
+.player-panel {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.textbox-wrapper {
+    width: 70%;
+}
+
+.logout-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+}

@@ -3,6 +3,7 @@ import Controls from "./Controls";
 import TextBox from "./TextBox";
 // import config from "../../config";
 import "./Game.css";
+import "../../../functions/traverseRooms";
 
 export default class Game extends Component {
   state = {

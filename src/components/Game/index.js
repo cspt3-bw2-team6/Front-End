@@ -103,7 +103,8 @@ export default class Game extends Component {
       .axiosHeaders()
       .post("/api/adv/examine", {name: `${subject}`})
       .then(res => {
-        console.log(res)
+        console.log("examine response",res.data)
+        this.refresh(res.data)
       })
       .catch(err => {
         console.log(err)

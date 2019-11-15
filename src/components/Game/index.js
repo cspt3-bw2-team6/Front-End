@@ -1,28 +1,38 @@
 import React, { Component } from "react";
 import Controls from "./Controls";
 import TextBox from "./TextBox";
-import Graph from "./Graph/"
+import Graph from "./Graph/";
+import RoomInfo from "./RoomInfo";
 import axiosWithAuth from "../../utilities/axiosWithAuth";
 import "./Game.css";
-import "../../../functions/traverseRooms";
+import traverse from "../../functions/traverseRooms";
 
 export default class Game extends Component {
   state = {
     uuid: "",
+    room_id: 0,
     name: "",
     title: "",
+    exits: [],
     description: "",
+    coordinates: "",
+    terrain: "",
+    elevation:"",
+    cooldown: 0,
+    items: [],
+    messages: [],
     players: [],
     error_msg: ""
   };
 
   refresh(data) {
     return this.setState({
-      title: data.title,
-      description: data.description,
-      players: data.players,
-      errors: data.errors
+      ...data
     });
+  }
+
+  autoTraversal() {
+    traverse();
   }
 
   movePlayer = direction => {
@@ -36,6 +46,37 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
+  take = () =>{
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/take", { direction })
+      .then(res => {
+        console.log(res);
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+
+  }
+  
+  drop = () =>{
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/drop", { direction })
+      .then(res => {
+        console.log(res);
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+
+  }
+
+ 
+  
+
+
+
+
+
   logout = () => {
     localStorage.clear();
     this.props.history.push("/login");
@@ -48,10 +89,7 @@ export default class Game extends Component {
       .then(res => {
         console.log(res);
         this.setState({
-          title: res.data.title,
-          description: res.data.description,
-          players: res.data.players,
-          errors: res.data.errors
+          ...res.data
         })
       });
   }
@@ -71,13 +109,14 @@ export default class Game extends Component {
         </div>
         <div className="player-panel">
           <div className="controls-wrapper">
-            <Controls move={this.movePlayer} />
+            <Controls move={this.movePlayer} autoTraversal={this.autoTraversal} />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />
           </div>
         </div>
         <Graph />
+        <RoomInfo {...this.state} />
       </div>
     );
   }

@@ -24,21 +24,21 @@ export default class Game extends Component {
     });
   }
 
-  // movePlayer = direction => {
-  //   config
-  //     .axiosHeaders()
-  //     .post("/api/adv/move", { direction })
-  //     .then(res => {
-  //       console.log(res);
-  //       return this.refresh(res.data);
-  //     })
-  //     .catch(err => console.log(err));
-  // };
+  movePlayer = direction => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/move", { direction })
+      .then(res => {
+        console.log(res);
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
-  // logout = () => {
-  //   localStorage.clear();
-  //   this.props.history.push("/login");
-  // };
+  logout = () => {
+    localStorage.clear();
+    this.props.history.push("/login");
+  };
 
   componentDidMount() {
     axiosWithAuth

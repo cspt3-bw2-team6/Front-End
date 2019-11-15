@@ -18,10 +18,9 @@ function Controls(props) {
       </div>
       <button type="button" onClick={props.autoTraversal} id="automate" className="nes-btn">Automate</button>
     <div>
-    <Button action="n" move={props.move} />
-    <Button action="s" move={props.move} />
-    <Button direction="n" move={props.move} />
-    <Button direction="s" move={props.move} />
+    <button type="button" onClick={props.takeit} className="nes-btn" />
+    <button type="button" onClick={props.dropit} className="nes-btn" />
+    <button type="button" className="nes-btn" onClick={props.examine} />
     </div>
     </div>
   );

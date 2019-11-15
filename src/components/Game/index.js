@@ -46,10 +46,11 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
-  take = () =>{
+  //Treasure functions
+  take = (takeit) =>{
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/take", { direction })
+      .post("/api/adv/take", { takeit })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -58,23 +59,66 @@ export default class Game extends Component {
 
   }
   
-  drop = () =>{
+  drop = (dropit) =>{
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/drop", { direction })
+      .post("/api/adv/drop", { dropit })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
       })
       .catch(err => console.log(err));
+
+  }
+
+  sell = (treasure) => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/sell", {name:`${treasure}`})
+      .then(res => {
+        console.log(res);
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  }
+
+  status = (checkStatus) => {
+    axiosWithAuth
+    .axiosHeaders()
+    .post("/api/adv/status", { checkStatus })
+    .then(res => {
+      console.log(res);
+      return this.refresh(res.data);
+    })
+    .catch(err => console.log(err));
 
   }
 
  
   
 
+  examine = (subject) => {
+    // subject parameter is string with name of object or player
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/examine", {name: `${subject}`})
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
-
+  wear = (item) => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/wear", {name: `${item}`})
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => console.log(err));
+  }
 
 
   logout = () => {
@@ -109,7 +153,12 @@ export default class Game extends Component {
         </div>
         <div className="player-panel">
           <div className="controls-wrapper">
-            <Controls move={this.movePlayer} autoTraversal={this.autoTraversal} />
+            <Controls 
+              takeit={this.take} 
+              dropit={this.drop} 
+              move={this.movePlayer}
+              examine={this.examine} 
+              autoTraversal={this.autoTraversal} />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

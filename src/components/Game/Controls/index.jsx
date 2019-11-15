@@ -23,7 +23,7 @@ function Controls(props) {
     <button type="button" onClick={props.dropit} className="nes-btn" />
     <button type="button" className="nes-btn" onClick={props.examine} />
     </div>
-    <TextInput examine={props.examine} />
+    <TextInput propFunction={props.examine} />
     </div>
   );
 }

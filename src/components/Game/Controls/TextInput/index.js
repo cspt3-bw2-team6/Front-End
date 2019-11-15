@@ -14,7 +14,7 @@ function TextInput(props) {
         value={text}
         onChange={e => setText(e.target.value)}
       />
-      <button className="nes-btn" onClick={() => props.examine(text)} >Examine</button>
+      <button className="nes-btn" onClick={() => props.propFunction(text)} >Examine</button>
     </div>
   );
 }

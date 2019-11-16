@@ -23,7 +23,7 @@ export default class Game extends Component {
     messages: [],
     players: [],
     error_msg: "",
-    map: {test: "testing!"}
+    map: {}
   };
 
   refresh(data) {
@@ -39,9 +39,11 @@ export default class Game extends Component {
 
   loadMap = () => {
     const yourMap = localStorage.getItem("map");
-    this.setState({
-      map: JSON.parse(yourMap)
-    });
+    if (!!yourMap) {
+      this.setState({
+        map: JSON.parse(yourMap)
+      });
+    }
   };
 
   autoTraversal() {
@@ -135,6 +137,7 @@ export default class Game extends Component {
   };
 
   componentDidMount() {
+    this.loadMap();
     axiosWithAuth
       .axiosHeaders()
       .get("/api/adv/init/")

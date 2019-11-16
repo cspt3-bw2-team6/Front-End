@@ -3,9 +3,11 @@ import "nes.css/css/nes.min.css";
 
 // basic textbox and button combo
 // props include
-// propFunction: the function you want the button to fire
+// primaryFunction: the function you want the button to fire
+// secondaryFuntion: the function you want the (optional) second button to fire
 // label: sets the textbox label
-// activity: the name of the activity, appears on button
+// activity1: the name of the primary activity, appears on button
+// activity2: the name of the secondary activity, appears on button
 
 function TextInput(props) {
   const [text, setText] = useState("");

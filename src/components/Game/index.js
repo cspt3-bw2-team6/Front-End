@@ -17,12 +17,13 @@ export default class Game extends Component {
     description: "",
     coordinates: "",
     terrain: "",
-    elevation:"",
+    elevation: "",
     cooldown: 0,
     items: [],
     messages: [],
     players: [],
-    error_msg: ""
+    error_msg: "",
+    map: {}
   };
 
   refresh(data) {
@@ -47,7 +48,7 @@ export default class Game extends Component {
   };
 
   //Treasure functions
-  take = (takeit) =>{
+  take = takeit => {
     axiosWithAuth
       .axiosHeaders()
       .post("/api/adv/take", { takeit })
@@ -56,10 +57,9 @@ export default class Game extends Component {
         return this.refresh(res.data);
       })
       .catch(err => console.log(err));
+  };
 
-  }
-  
-  drop = (dropit) =>{
+  drop = dropit => {
     axiosWithAuth
       .axiosHeaders()
       .post("/api/adv/drop", { dropit })
@@ -68,63 +68,57 @@ export default class Game extends Component {
         return this.refresh(res.data);
       })
       .catch(err => console.log(err));
+  };
 
-  }
-
-  sell = (treasure) => {
+  sell = treasure => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/sell", {name:`${treasure}`})
+      .post("/api/adv/sell", { name: `${treasure}` })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
       })
       .catch(err => console.log(err));
-  }
+  };
 
-  status = (checkStatus) => {
+  status = checkStatus => {
     axiosWithAuth
-    .axiosHeaders()
-    .post("/api/adv/status", { checkStatus })
-    .then(res => {
-      console.log(res);
-      return this.refresh(res.data);
-    })
-    .catch(err => console.log(err));
+      .axiosHeaders()
+      .post("/api/adv/status", { checkStatus })
+      .then(res => {
+        console.log(res);
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
-  }
-
- 
-  
-
-  examine = (subject) => {
+  examine = subject => {
     // subject parameter is string with name of object or player
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/examine", {name: `${subject}`})
+      .post("/api/adv/examine", { name: `${subject}` })
       .then(res => {
-        console.log("examine response",res.data)
-        this.refresh(res.data)
+        console.log("examine response", res.data);
+        this.refresh(res.data);
       })
       .catch(err => {
-        console.log(err)
-      })
-  }
+        console.log(err);
+      });
+  };
 
-  wear = (item) => {
+  wear = item => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/wear", {name: `${item}`})
+      .post("/api/adv/wear", { name: `${item}` })
       .then(res => {
-        console.log(res)
+        console.log(res);
       })
       .catch(err => console.log(err));
-  }
-
+  };
 
   logout = () => {
-    localStorage.clear();
-    this.props.history.push("/login");
+    localStorage.removeItem("key");
+    this.props.history.push("/");
   };
 
   componentDidMount() {
@@ -135,7 +129,7 @@ export default class Game extends Component {
         console.log(res);
         this.setState({
           ...res.data
-        })
+        });
       });
   }
 
@@ -154,12 +148,13 @@ export default class Game extends Component {
         </div>
         <div className="player-panel">
           <div className="controls-wrapper">
-            <Controls 
-              takeit={this.take} 
-              dropit={this.drop} 
+            <Controls
+              takeit={this.take}
+              dropit={this.drop}
               move={this.movePlayer}
-              examine={this.examine} 
-              autoTraversal={this.autoTraversal} />
+              examine={this.examine}
+              autoTraversal={this.autoTraversal}
+            />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

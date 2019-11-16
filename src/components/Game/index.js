@@ -166,8 +166,8 @@ export default class Game extends Component {
               dropit={this.drop}
               move={this.movePlayer}
               examine={this.examine}
-              autoTraversal={this.autoTraversal}
-            />
+              praying={this.shrine} 
+              autoTraversal={this.autoTraversal} />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

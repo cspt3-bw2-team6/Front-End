@@ -94,7 +94,7 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
-
+  
   status = checkStatus => {
     axiosWithAuth
       .axiosHeaders()
@@ -151,6 +151,17 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
+  
+  shrine = () => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/pray")
+      .then(res => {
+        console.log(res);
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
   logout = () => {
     this.saveMap(this.state.map);
@@ -194,8 +205,7 @@ export default class Game extends Component {
               autoTraversal={this.autoTraversal}
               ghostCarry={this.ghostCarry}
               ghostReceive={this.ghostReceive}
-              praying={this.shrine} 
-              autoTraversal={this.autoTraversal} />
+              praying={this.shrine} />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

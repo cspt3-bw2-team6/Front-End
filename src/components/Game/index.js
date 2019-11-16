@@ -23,7 +23,7 @@ export default class Game extends Component {
     messages: [],
     players: [],
     error_msg: "",
-    map: {}
+    map: {test: "testing!"}
   };
 
   refresh(data) {
@@ -31,6 +31,18 @@ export default class Game extends Component {
       ...data
     });
   }
+
+  saveMap = map => {
+    const yourMap = JSON.stringify({ ...map });
+    localStorage.setItem("map", yourMap);
+  };
+
+  loadMap = () => {
+    const yourMap = localStorage.getItem("map");
+    this.setState({
+      map: JSON.parse(yourMap)
+    });
+  };
 
   autoTraversal() {
     traverse();
@@ -117,6 +129,7 @@ export default class Game extends Component {
   };
 
   logout = () => {
+    this.saveMap(this.state.map);
     localStorage.removeItem("key");
     this.props.history.push("/");
   };

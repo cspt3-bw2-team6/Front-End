@@ -20,7 +20,17 @@ function TextInput(props) {
         value={text}
         onChange={e => setText(e.target.value)}
       />
-      <button className="nes-btn" onClick={() => props.propFunction(text)} >{props.activity}</button>
+      <button className="nes-btn" onClick={() => props.primaryFunction(text)}>
+        {props.activity1}
+      </button>
+      {!!props.secondaryFunction && (
+        <button
+          className="nes-btn"
+          onClick={() => props.secondaryFunction(text)}
+        >
+          {props.activity2}
+        </button>
+      )}
     </div>
   );
 }

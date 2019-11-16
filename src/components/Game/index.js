@@ -130,6 +130,18 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
+  ghostCarry = item => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/carry/", { name: item })
+      .then(res => {
+        console.log("ghost carry res", res.data);
+        this.refresh(res.data);
+      });
+  };
+
+  
+
   logout = () => {
     this.saveMap(this.state.map);
     localStorage.removeItem("key");

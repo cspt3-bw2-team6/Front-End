@@ -23,7 +23,7 @@ export default class Game extends Component {
     messages: [],
     players: [],
     error_msg: "",
-    map: {test: "testing!"}
+    map: {}
   };
 
   refresh(data) {
@@ -39,9 +39,11 @@ export default class Game extends Component {
 
   loadMap = () => {
     const yourMap = localStorage.getItem("map");
-    this.setState({
-      map: JSON.parse(yourMap)
-    });
+    if (!!yourMap) {
+      this.setState({
+        map: JSON.parse(yourMap)
+      });
+    }
   };
 
   autoTraversal() {
@@ -128,6 +130,28 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
+  ghostCarry = item => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/carry/", { name: item })
+      .then(res => {
+        console.log("ghost carry res", res.data);
+        this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
+  ghostReceive = item => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/receive")
+      .then(res => {
+        console.log("ghost receive res", res.data);
+        this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
   logout = () => {
     this.saveMap(this.state.map);
     localStorage.removeItem("key");
@@ -135,6 +159,7 @@ export default class Game extends Component {
   };
 
   componentDidMount() {
+    this.loadMap();
     axiosWithAuth
       .axiosHeaders()
       .get("/api/adv/init/")
@@ -166,6 +191,9 @@ export default class Game extends Component {
               dropit={this.drop}
               move={this.movePlayer}
               examine={this.examine}
+              autoTraversal={this.autoTraversal}
+              ghostCarry={this.ghostCarry}
+              ghostReceive={this.ghostReceive}
               praying={this.shrine} 
               autoTraversal={this.autoTraversal} />
           </div>

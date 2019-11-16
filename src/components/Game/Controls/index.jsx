@@ -38,8 +38,8 @@ function Controls(props) {
         label={"Item Name"}
         activity1={"Carry"}
         activity2={"Receive"}
-        primaryFunction={() => console.log("carry")}
-        secondaryFunction={() => console.log("recieve")}
+        primaryFunction={props.ghostCarry}
+        secondaryFunction={props.ghostReceive}
       />
     </div>
   );

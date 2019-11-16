@@ -1,12 +1,11 @@
 import React from "react";
 import Button from "./Button";
-import TextInput from "./TextInput"
+import TextInput from "./TextInput";
 import "nes.css/css/nes.min.css";
 import "./Controls.css";
 
-
 function Controls(props) {
-  console.log(props)
+  console.log(props);
   return (
     <div className="controls-wrapper nes-container is-rounded">
       <div className="button-wrapper">

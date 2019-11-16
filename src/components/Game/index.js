@@ -92,10 +92,7 @@ export default class Game extends Component {
     })
     .catch(err => console.log(err));
 
-  }
-
- 
-  
+  }  
 
   examine = (subject) => {
     // subject parameter is string with name of object or player
@@ -121,6 +118,17 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   }
 
+  shrine = (praying) =>{
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/pray")
+      .then(res => {
+        console.log(res);
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+
+  }
 
   logout = () => {
     localStorage.clear();
@@ -158,7 +166,8 @@ export default class Game extends Component {
               takeit={this.take} 
               dropit={this.drop} 
               move={this.movePlayer}
-              examine={this.examine} 
+              examine={this.examine}
+              praying={this.shrine} 
               autoTraversal={this.autoTraversal} />
           </div>
           <div className="textbox-wrapper">

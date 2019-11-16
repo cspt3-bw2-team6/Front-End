@@ -137,10 +137,20 @@ export default class Game extends Component {
       .then(res => {
         console.log("ghost carry res", res.data);
         this.refresh(res.data);
-      });
+      })
+      .catch(err => console.log(err));
   };
 
-  
+  ghostReceive = item => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/receive")
+      .then(res => {
+        console.log("ghost receive res", res.data);
+        this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
   logout = () => {
     this.saveMap(this.state.map);

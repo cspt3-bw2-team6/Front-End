@@ -8,11 +8,7 @@ import './Game.css'
 import traverse from '../../functions/traverseRooms'
 
 export default class Game extends Component {
-	constructor(props) {
-		super(props)
-		this.canvasRef = React.createRef()
-	}
-	state = {
+	  state = {
 		uuid: '',
 		room_id: 0,
 		name: '',
@@ -182,7 +178,7 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
   }
   
-  fly = direction => {
+  fly = (direction) => {
 		axiosWithAuth
 			.axiosHeaders()
 			.post('/api/api/adv/fly', { direction: `${direction}` })
@@ -211,17 +207,6 @@ export default class Game extends Component {
 	}
 
 	componentDidMount() {
-		const canvas = this.canvasRef.current
-		const context = canvas.getContext('2d')
-		context.rect(0, 0, canvas.width, canvas.height)
-		for (let i = 0; i < 20; i++) {
-			for (let j = 0; j < 20; j++) {
-				context.beginPath()
-				context.fillStyle = ['#FFFFFF', '#343434'][(i + j) % 2]
-				context.fillRect(j * 30, i * 30, 30, 30)
-				context.closePath()
-			}
-		}
 		this.loadMap()
 		axiosWithAuth
 			.axiosHeaders()

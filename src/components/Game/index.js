@@ -129,7 +129,18 @@ export default class Game extends Component {
 			.axiosHeaders()
 			.post('/api/adv/wear', { name: `${item}` })
 			.then(res => {
-				console.log(res)
+				console.log('WEAR',res.data)
+				this.refresh(res.data)
+			})
+			.catch(err => console.log(err))
+  }
+  
+  undress = item => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/undress', { name: `${item}` })
+			.then(res => {
+				console.log('UNDRESS', res.data)
 				this.refresh(res.data)
 			})
 			.catch(err => console.log(err))
@@ -146,16 +157,7 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
 	}
 
-	undress = item => {
-		axiosWithAuth
-			.axiosHeaders()
-			.post('/api/adv/undress', { name: `${item}` })
-			.then(res => {
-				console.log(res)
-				this.refresh(res.data)
-			})
-			.catch(err => console.log(err))
-	}
+	
 
 	ghostCarry = item => {
 		axiosWithAuth

@@ -262,7 +262,8 @@ export default class Game extends Component {
 							praying={this.shrine}
 							wear={this.wear}
 							undress={this.undress}
-							nameChange={this.change}
+              nameChange={this.change}
+              fly={this.fly}
 						/>
 					</div>
 					<div className='textbox-wrapper'>

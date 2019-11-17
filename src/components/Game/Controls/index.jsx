@@ -39,8 +39,12 @@ function Controls(props) {
         label={"Item Name"}
         activity1={"Carry"}
         activity2={"Receive"}
+        // activity3={"Wear"}
+        // activity4={"Undress"}
         primaryFunction={props.ghostCarry}
         secondaryFunction={props.ghostReceive}
+        // tertiaryFunction={props.wear}
+        // quaternaryFunction={props.undress}
       />
     </div>
   );

@@ -180,6 +180,17 @@ export default class Game extends Component {
 				this.refresh(res.data)
 			})
 			.catch(err => console.log(err))
+  }
+  
+  fly = direction => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/api/adv/fly', { direction: `${direction}` })
+			.then(res => {
+				console.log('FLIGHT',res)
+				this.refresh(res.data)
+			})
+			.catch(err => console.log(err))
 	}
 
 	shrine = () => {

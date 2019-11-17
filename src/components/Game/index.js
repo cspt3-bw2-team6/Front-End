@@ -124,6 +124,7 @@ export default class Game extends Component {
 			})
 	}
 
+  //Equipement 
 	wear = item => {
 		axiosWithAuth
 			.axiosHeaders()
@@ -151,7 +152,7 @@ export default class Game extends Component {
 			.axiosHeaders()
 			.post('/api/adv/change_name', { name: `${name}` })
 			.then(res => {
-				console.log(res)
+				console.log('NEW NAME',res)
 				this.refresh(res.data)
 			})
 			.catch(err => console.log(err))

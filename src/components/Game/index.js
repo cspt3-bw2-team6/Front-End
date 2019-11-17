@@ -213,7 +213,9 @@ export default class Game extends Component {
           <div className="controls-wrapper">
             <Controls
               takeit={this.take}
-              dropit={this.drop}
+			  dropit={this.drop}
+			  sellit={this.sell}
+			  status={this.status}
               move={this.movePlayer}
               examine={this.examine}
               autoTraversal={this.autoTraversal}

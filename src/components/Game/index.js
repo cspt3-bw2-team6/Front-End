@@ -32,11 +32,13 @@ export default class Game extends Component {
     });
   }
 
+  // save map object to local storage
   saveMap = map => {
     const yourMap = JSON.stringify({ ...map });
     localStorage.setItem("map", yourMap);
   };
 
+  // load map object to state from local storage
   loadMap = () => {
     const yourMap = localStorage.getItem("map");
     if (!!yourMap) {
@@ -56,16 +58,62 @@ export default class Game extends Component {
       .post("/api/adv/move", { direction })
       .then(res => {
         console.log(res);
+        const { room_id } = res.data;
+        if (Object.keys(this.state.map).includes(room_id)) {
+          // updates exits of last room and current room
+          this.mapLastRoom(this.state, res.date, direction);
+        } else {
+          // add new room to map
+          this.mapNewRoom(res.data);
+          // add relevant exit data to last room and this room on map
+          this.mapLastRoom(this.state, res.data, direction);
+        }
         return this.refresh(res.data);
       })
       .catch(err => console.log(err));
   };
 
+  // Add new room entry to map
+  mapNewRoom = roomInfo => {
+    const mapCopy = { ...this.state.map };
+    const exits = {};
+    for (let exit of roomInfo.exits) {
+      exits[exit] = "?";
+    }
+    mapCopy[roomInfo.room_id] = {
+      name: roomInfo.name,
+      title: roomInfo.title,
+      exits: exits,
+      coordinates: roomInfo.coordinates,
+      terrains: roomInfo.terrain,
+      elevation: roomInfo.elevation
+    };
+    this.saveMap(mapCopy);
+    this.setState({ map: { ...mapCopy } });
+  };
+
+  // Add relevant exit relationships between lastRoom and thisRoom
+  mapLastRoom = (lastRoom, thisRoom, direction) => {
+    const oppDir = {
+      n: "s",
+      s: "n",
+      e: "w",
+      w: "e"
+    };
+    const mapCopy = { ...this.state.map };
+    const lastRoomDir = oppDir[direction];
+    mapCopy[thisRoom.room_id]["exits"][lastRoomDir] = lastRoom.room_id;
+    mapCopy[lastRoom.room_id]["exits"][direction] = thisRoom.room_id;
+    this.saveMap(mapCopy);
+    this.setState({ map: { ...mapCopy } });
+  };
+
   //Treasure functions
   take = takeit => {
+    
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/take", { takeit })
+      .post("/api/adv/take", {"name":takeit})
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -76,7 +124,7 @@ export default class Game extends Component {
   drop = dropit => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/drop", { dropit })
+      .post("/api/adv/drop", { "name":dropit })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -94,7 +142,7 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
-  
+
   status = checkStatus => {
     axiosWithAuth
       .axiosHeaders()
@@ -165,7 +213,7 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
-  
+
   shrine = () => {
     axiosWithAuth
       .axiosHeaders()
@@ -212,18 +260,20 @@ export default class Game extends Component {
         <div className="player-panel">
           <div className="controls-wrapper">
             <Controls
+              data={this.state}
               takeit={this.take}
-			  dropit={this.drop}
-			  sellit={this.sell}
-			  status={this.status}
+              dropit={this.drop}
+			        sellit={this.sell}
+			        status={this.status}
               move={this.movePlayer}
               examine={this.examine}
               autoTraversal={this.autoTraversal}
               ghostCarry={this.ghostCarry}
-              ghostReceive={this.ghostReceive}
-			  praying={this.shrine}
-			  wear={this.wear}
-			  undress={this.undress} />
+              ghostReceive={this.ghostReceive}  
+			        praying={this.shrine}
+			        wear={this.wear}
+			        undress={this.undress} 
+              status={this.status}/>
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

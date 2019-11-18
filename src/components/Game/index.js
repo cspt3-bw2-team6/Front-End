@@ -32,11 +32,13 @@ export default class Game extends Component {
     });
   }
 
+  // save map object to local storage
   saveMap = map => {
     const yourMap = JSON.stringify({ ...map });
     localStorage.setItem("map", yourMap);
   };
 
+  // load map object to state from local storage
   loadMap = () => {
     const yourMap = localStorage.getItem("map");
     if (!!yourMap) {

@@ -61,6 +61,25 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
+  // Add new room entry to map
+  mapNewRoom = roomInfo => {
+    const mapCopy = { ...this.state.map };
+    const exits = {};
+    for (let exit of roomInfo.exits) {
+      exits[exit] = "?";
+    }
+    mapCopy[roomInfo.room_id] = {
+      name: roomInfo.name,
+      title: roomInfo.title,
+      exits: exits,
+      coordinates: roomInfo.coordinates,
+      terrains: roomInfo.terrain,
+      elevation: roomInfo.elevation
+    };
+    this.saveMap(mapCopy);
+    this.setState({ map: { ...mapCopy } });
+  };
+
   //Treasure functions
   take = takeit => {
     axiosWithAuth

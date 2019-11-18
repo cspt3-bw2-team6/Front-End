@@ -253,13 +253,8 @@ export default class Game extends Component {
               autoTraversal={this.autoTraversal}
               ghostCarry={this.ghostCarry}
               ghostReceive={this.ghostReceive}
-<<<<<<< HEAD
-              praying={this.shrine}
-            />
-=======
               praying={this.shrine} 
               status={this.status}/>
->>>>>>> 43518d1a7fc7cd2cfb4084c8c11fbbd95fb9e7f2
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

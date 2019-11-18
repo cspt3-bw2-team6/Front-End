@@ -5,16 +5,25 @@ import "nes.css/css/nes.min.css";
 import "./Controls.css";
 
 function Controls(props) {
-  console.log(props);
+  console.log(props,'controls');
   return (
     <div className="controls-wrapper nes-container is-rounded">
       <div className="button-wrapper">
-        <Button direction="w" move={props.move} />
+        {props.data.exits.indexOf("w") > -1
+        ?<Button direction="w" move={props.move} />
+        :<div></div>
+      }
         <div className="vertical-buttons">
-          <Button direction="n" move={props.move} />
-          <Button direction="s" move={props.move} />
+        {props.data.exits.indexOf("n") > -1
+        ?<Button direction="n" move={props.move} />
+        :<div></div>}
+        {props.data.exits.indexOf("s") > -1
+        ?<Button direction="s" move={props.move} />
+        :<div></div>}
         </div>
-        <Button direction="e" move={props.move} />
+        {props.data.exits.indexOf("e") > -1
+        ?<Button direction="e" move={props.move} />
+        :<div></div>}
       </div>
       <button
         type="button"
@@ -25,16 +34,27 @@ function Controls(props) {
         Automate
       </button>
       <div>
-        <button type="button" onClick={props.takeit} className="nes-btn" />
-        <button type="button" onClick={props.dropit} className="nes-btn" />
-        <button type="button" onClick={props.praying} className="nes-btn" />
-        <button type="button" className="nes-btn" onClick={props.examine} />
+        <button type="button" onClick={props.praying} className="nes-btn">Pray</button> 
+        <button type="button" onClick={props.status} className="nes-btn">Status</button> 
+      
       </div>
+      
       <TextInput
-        primaryFunction={props.examine}
-        label="Item or Player Name"
-        activity1="Examine"
+        label={"Treasure"}
+        activity1={"Pickup"}
+        activity2={"Drop"}
+        primaryFunction={props.takeit}
+        secondaryFunction={props.dropit}
       />
+      
+      <TextInput
+        activity1={"Examine"}
+        activity2={"Sell"}
+        primaryFunction={props.examine}
+        secondaryFunction={props.sell}
+        label="Item or Player Name"
+      />
+      
       <TextInput
         label={"Item Name"}
         activity1={"Carry"}

@@ -63,9 +63,10 @@ export default class Game extends Component {
 
   //Treasure functions
   take = takeit => {
+    
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/take", { takeit })
+      .post("/api/adv/take", {"name":takeit})
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -76,7 +77,7 @@ export default class Game extends Component {
   drop = dropit => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/drop", { dropit })
+      .post("/api/adv/drop", { "name":dropit })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -198,14 +199,17 @@ export default class Game extends Component {
         <div className="player-panel">
           <div className="controls-wrapper">
             <Controls
+              data={this.state}
               takeit={this.take}
               dropit={this.drop}
+              sell={this.sell}
               move={this.movePlayer}
               examine={this.examine}
               autoTraversal={this.autoTraversal}
               ghostCarry={this.ghostCarry}
               ghostReceive={this.ghostReceive}
-              praying={this.shrine} />
+              praying={this.shrine} 
+              status={this.status}/>
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

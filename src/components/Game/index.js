@@ -56,6 +56,13 @@ export default class Game extends Component {
       .post("/api/adv/move", { direction })
       .then(res => {
         console.log(res);
+        const { room_id } = res.data;
+        if (Object.keys(this.state.map).includes(room_id)) {
+          this.mapLastRoom(this.state, res.date, direction);
+        } else {
+          this.mapNewRoom(res.data);
+          this.mapLastRoom(this.state, res.data, direction);
+        }
         return this.refresh(res.data);
       })
       .catch(err => console.log(err));
@@ -128,7 +135,7 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
-  
+
   status = checkStatus => {
     axiosWithAuth
       .axiosHeaders()
@@ -185,7 +192,7 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
-  
+
   shrine = () => {
     axiosWithAuth
       .axiosHeaders()
@@ -239,7 +246,8 @@ export default class Game extends Component {
               autoTraversal={this.autoTraversal}
               ghostCarry={this.ghostCarry}
               ghostReceive={this.ghostReceive}
-              praying={this.shrine} />
+              praying={this.shrine}
+            />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

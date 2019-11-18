@@ -80,6 +80,21 @@ export default class Game extends Component {
     this.setState({ map: { ...mapCopy } });
   };
 
+  mapLastRoom = (lastRoom, thisRoom, direction) => {
+    const oppDir = {
+      n: "s",
+      s: "n",
+      e: "w",
+      w: "e"
+    };
+    const mapCopy = { ...this.state.map };
+    const lastRoomDir = oppDir[direction];
+    mapCopy[thisRoom.room_id]["exits"][lastRoomDir] = lastRoom.room_id;
+    mapCopy[lastRoom.room_id]["exits"][direction] = thisRoom.room_id;
+    this.saveMap(mapCopy);
+    this.setState({ map: { ...mapCopy } });
+  };
+
   //Treasure functions
   take = takeit => {
     axiosWithAuth

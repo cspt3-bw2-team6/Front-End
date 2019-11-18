@@ -58,9 +58,12 @@ export default class Game extends Component {
         console.log(res);
         const { room_id } = res.data;
         if (Object.keys(this.state.map).includes(room_id)) {
+          // updates exits of last room and current room
           this.mapLastRoom(this.state, res.date, direction);
         } else {
+          // add new room to map
           this.mapNewRoom(res.data);
+          // add relevant exit data to last room and this room on map
           this.mapLastRoom(this.state, res.data, direction);
         }
         return this.refresh(res.data);
@@ -87,6 +90,7 @@ export default class Game extends Component {
     this.setState({ map: { ...mapCopy } });
   };
 
+  // Add relevant exit relationships between lastRoom and thisRoom
   mapLastRoom = (lastRoom, thisRoom, direction) => {
     const oppDir = {
       n: "s",

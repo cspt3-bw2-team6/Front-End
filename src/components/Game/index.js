@@ -32,11 +32,13 @@ export default class Game extends Component {
     });
   }
 
+  // save map object to local storage
   saveMap = map => {
     const yourMap = JSON.stringify({ ...map });
     localStorage.setItem("map", yourMap);
   };
 
+  // load map object to state from local storage
   loadMap = () => {
     const yourMap = localStorage.getItem("map");
     if (!!yourMap) {
@@ -56,9 +58,54 @@ export default class Game extends Component {
       .post("/api/adv/move", { direction })
       .then(res => {
         console.log(res);
+        const { room_id } = res.data;
+        if (Object.keys(this.state.map).includes(room_id)) {
+          // updates exits of last room and current room
+          this.mapLastRoom(this.state, res.date, direction);
+        } else {
+          // add new room to map
+          this.mapNewRoom(res.data);
+          // add relevant exit data to last room and this room on map
+          this.mapLastRoom(this.state, res.data, direction);
+        }
         return this.refresh(res.data);
       })
       .catch(err => console.log(err));
+  };
+
+  // Add new room entry to map
+  mapNewRoom = roomInfo => {
+    const mapCopy = { ...this.state.map };
+    const exits = {};
+    for (let exit of roomInfo.exits) {
+      exits[exit] = "?";
+    }
+    mapCopy[roomInfo.room_id] = {
+      name: roomInfo.name,
+      title: roomInfo.title,
+      exits: exits,
+      coordinates: roomInfo.coordinates,
+      terrains: roomInfo.terrain,
+      elevation: roomInfo.elevation
+    };
+    this.saveMap(mapCopy);
+    this.setState({ map: { ...mapCopy } });
+  };
+
+  // Add relevant exit relationships between lastRoom and thisRoom
+  mapLastRoom = (lastRoom, thisRoom, direction) => {
+    const oppDir = {
+      n: "s",
+      s: "n",
+      e: "w",
+      w: "e"
+    };
+    const mapCopy = { ...this.state.map };
+    const lastRoomDir = oppDir[direction];
+    mapCopy[thisRoom.room_id]["exits"][lastRoomDir] = lastRoom.room_id;
+    mapCopy[lastRoom.room_id]["exits"][direction] = thisRoom.room_id;
+    this.saveMap(mapCopy);
+    this.setState({ map: { ...mapCopy } });
   };
 
   //Treasure functions
@@ -95,7 +142,7 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
-  
+
   status = checkStatus => {
     axiosWithAuth
       .axiosHeaders()
@@ -152,7 +199,7 @@ export default class Game extends Component {
       })
       .catch(err => console.log(err));
   };
-  
+
   shrine = () => {
     axiosWithAuth
       .axiosHeaders()

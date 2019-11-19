@@ -244,7 +244,7 @@ export default class Game extends Component {
 	mine = newProof => {
 		axiosWithAuth
 			.axiosHeaders()
-			.post('/api/adv/change_name', { proof: `${newProof}` })
+			.post('/api/bc/mine', { proof: `${newProof}` })
 			.then(res => {
 				console.log('NEW PROOF',res)
 			})

@@ -19,6 +19,7 @@ async function playerMove(direction) {
     }
 
 console.log('traveled', options, direction)
+
     const result = await axios
         .post(`${backendUrl}/api/adv/move/`, { 'direction': direction }, options);
     console.log(result.data);
@@ -26,10 +27,13 @@ console.log('traveled', options, direction)
     console.log('nextroom', nextRoom);
     return nextRoom;
     }
-    function traverse(room, currentRooms) {
+    function traverse(room) {
+
+        let currentRooms = JSON.parse(localStorage.getItem('map'))
         // console.log(room)
-        currentRooms[room.room_id] = room
-        let allVisited = JSON.parse(localStorage.getItem('allVisited'))
+        currentRooms[room.roomId] = room
+
+        let allVisited = JSON.parse(localStorage.getItem('visited'))
         // return currentRooms
     
         let traversalPath = []
@@ -204,10 +208,10 @@ console.log('traveled', options, direction)
         localStorage.setItem('visited', JSON.stringify(visited));
 
         let visitSize = Object.keys(visited).length
-        let allSize = Object.keys(JSON.parse(localStorage.getItem('allVisited'))).length
+        let allSize = Object.keys(JSON.parse(localStorage.getItem('visited'))).length
         // console.log('sizes --- --- ---', visitSize, allSize)
         if (visitSize > allSize) {
-            localStorage.setItem('allVisited', JSON.stringify(visited))
+            localStorage.setItem('visited', JSON.stringify(visited))
             allVisited = visited
         }
 

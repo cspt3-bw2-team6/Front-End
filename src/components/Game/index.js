@@ -241,6 +241,15 @@ export default class Game extends Component {
 			})
 	}
 
+	mine = newProof => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/change_name', { proof: `${newProof}` })
+			.then(res => {
+				console.log('NEW PROOF',res)
+			})
+	}
+
 	logout = () => {
 		this.saveMap(this.state.map)
 		localStorage.removeItem('key')

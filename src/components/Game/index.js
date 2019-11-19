@@ -243,10 +243,10 @@ export default class Game extends Component {
 	}
 
 	//Lambda Coin Functions
-	mine = newProof => {
+	mine = new_proof => {
 		axiosWithAuth
 			.axiosHeaders()
-			.post('/api/bc/mine', { proof: `${newProof}` })
+			.post('/api/bc/mine', { proof: `${new_proof}` })
 			.then(res => {
 				console.log('NEW PROOF',res)
 			})

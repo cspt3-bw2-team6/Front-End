@@ -239,6 +239,7 @@ export default class Game extends Component {
 			.then(res => {
 				console.log('NEW NAME',res)
 			})
+			.catch(err => console.log(err))
 	}
 
 	mine = newProof => {
@@ -248,7 +249,20 @@ export default class Game extends Component {
 			.then(res => {
 				console.log('NEW PROOF',res)
 			})
+			.catch(err => console.log(err))
 	}
+
+	proof = () => {
+		axiosWithAuth
+			.axiosHeaders()
+			.get('/api/bc/last_proof/')
+			.then(res => {
+				console.log('GET PROOF',res.data)
+			})
+			.catch(err => console.log(err))
+	}
+
+	
 
 	logout = () => {
 		this.saveMap(this.state.map)

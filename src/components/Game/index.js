@@ -173,9 +173,23 @@ export default class Game extends Component {
       .axiosHeaders()
       .post("/api/adv/wear", { name: `${item}` })
       .then(res => {
-        console.log(res);
+		console.log(res);
+		this.refresh(res.data);
       })
-      .catch(err => console.log(err));
+	  .catch(err => console.log(err));
+	  
+  };
+
+  undress = item => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/undress", { name: `${item}` })
+      .then(res => {
+		console.log(res);
+		this.refresh(res.data);
+      })
+	  .catch(err => console.log(err));
+	  
   };
 
   ghostCarry = item => {
@@ -248,15 +262,17 @@ export default class Game extends Component {
             <Controls
               data={this.state}
               takeit={this.take}
-              dropit={this.drop}
-              sell={this.sell}
+			        dropit={this.drop}
+			        sellit={this.sell}
+			        status={this.status}
               move={this.movePlayer}
               examine={this.examine}
               autoTraversal={this.autoTraversal}
               ghostCarry={this.ghostCarry}
               ghostReceive={this.ghostReceive}
-              praying={this.shrine} 
-              status={this.status}/>
+			        praying={this.shrine}
+			        wear={this.wear}
+			        undress={this.undress} />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

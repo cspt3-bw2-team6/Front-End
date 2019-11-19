@@ -220,6 +220,19 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
 	}
 
+
+	fly = direction => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/api/adv/fly', { direction: `${direction}` })
+			.then(res => {
+				console.log('FLIGHT', res)
+				this.refresh(res.data)
+			})
+			.catch(err => console.log(err))
+	}
+
+
 	logout = () => {
 		this.saveMap(this.state.map)
 		localStorage.removeItem('key')
@@ -267,7 +280,8 @@ export default class Game extends Component {
               ghostReceive={this.ghostReceive}
               praying={this.shrine}
               wear={this.wear}
-              undress={this.undress}
+			  undress={this.undress}
+			  fly={this.fly}
             />
           </div>
           <div className="textbox-wrapper">

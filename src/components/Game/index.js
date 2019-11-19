@@ -242,6 +242,7 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
 	}
 
+	//Lambda Coin Functions
 	mine = newProof => {
 		axiosWithAuth
 			.axiosHeaders()
@@ -252,7 +253,7 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
 	}
 
-	proof = () => {
+	getProof = () => {
 		axiosWithAuth
 			.axiosHeaders()
 			.get('/api/bc/last_proof/')
@@ -262,7 +263,17 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
 	}
 
-	
+	getBalance = () => {
+		axiosWithAuth
+			.axiosHeaders()
+			.get('/api/bc/get_balance/')
+			.then(res => {
+				console.log('GET BALANCE',res.data)
+			})
+			.catch(err => console.log(err))
+	}
+
+
 
 	logout = () => {
 		this.saveMap(this.state.map)
@@ -314,6 +325,9 @@ export default class Game extends Component {
 			  undress={this.undress}
 			  fly={this.fly}
 			  changeName={this.changeName}
+			  mine={this.mine}
+			  getProof ={this.getProof}
+			  getBalance={this.getBalance}
             />
           </div>
           <div className="textbox-wrapper">

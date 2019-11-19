@@ -53,26 +53,24 @@ export default class Game extends Component {
 		traverse();
 	}
 
-	movePlayer = direction => {
-		axiosWithAuth
-		.axiosHeaders()
-		.post("/api/adv/move", { direction })
-		.then(res => {
-			console.log(res);
-			const { room_id } = res.data;
-			if (Object.keys(this.state.map).includes(room_id)) {
-			// updates exits of last room and current room
-			this.mapLastRoom(this.state, res.date, direction);
-			} else {
-			// add new room to map
-			this.mapNewRoom(res.data);
-			// add relevant exit data to last room and this room on map
-			this.mapLastRoom(this.state, res.data, direction);
-			}
-			return this.refresh(res.data);
-		})
-		.catch(err => console.log(err));
-	};
+  movePlayer = direction => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/move", { direction })
+      .then(res => {
+        console.log(res);
+        const { room_id } = res.data;
+        if (!Object.keys(this.state.map).includes(room_id)) {
+          // add new room to map
+          this.mapNewRoom(res.data);
+        }
+        // add relevant exit data to last room and this room on map
+        this.mapLastRoom(this.state, res.data, direction);
+
+        return this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
   // Add new room entry to map
 	mapNewRoom = roomInfo => {
@@ -270,17 +268,18 @@ export default class Game extends Component {
             <Controls
               data={this.state}
               takeit={this.take}
-			        dropit={this.drop}
-			        sellit={this.sell}
-			        status={this.status}
+              dropit={this.drop}
+              sellit={this.sell}
+              status={this.status}
               move={this.movePlayer}
               examine={this.examine}
               autoTraversal={this.autoTraversal}
               ghostCarry={this.ghostCarry}
               ghostReceive={this.ghostReceive}
-			        praying={this.shrine}
-			        wear={this.wear}
-			        undress={this.undress} />
+              praying={this.shrine}
+              wear={this.wear}
+              undress={this.undress}
+            />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />

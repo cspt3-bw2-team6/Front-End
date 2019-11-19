@@ -211,6 +211,17 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
 	}
 
+	fly = direction => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/api/adv/fly', { direction: `${direction}` })
+			.then(res => {
+				console.log('FLIGHT', res)
+				this.refresh(res.data)
+			})
+			.catch(err => console.log(err))
+	}
+
 	shrine = () => {
 		axiosWithAuth
 			.axiosHeaders()
@@ -241,44 +252,45 @@ export default class Game extends Component {
 			})
 	}
 
-  render() {
-    return (
-      <div className="game-wrapper">
-        <div className="logout-wrapper">
-          <button
-            className="nes-btn"
-            id="logout-button"
-            type="button"
-            onClick={this.logout}
-          >
-            <i className="nes-icon close" />
-          </button>
-        </div>
-        <div className="player-panel">
-          <div className="controls-wrapper">
-            <Controls
-              data={this.state}
-              takeit={this.take}
-			        dropit={this.drop}
-			        sellit={this.sell}
-			        status={this.status}
-              move={this.movePlayer}
-              examine={this.examine}
-              autoTraversal={this.autoTraversal}
-              ghostCarry={this.ghostCarry}
-              ghostReceive={this.ghostReceive}
-			        praying={this.shrine}
-			        wear={this.wear}
-			        undress={this.undress} />
-          </div>
-          <div className="textbox-wrapper">
-            <TextBox info={this.state} />
-          </div>
-        </div>
-        <Graph />
-        <RoomInfo {...this.state} />
-      </div>
-    );
-  }
-
+	render() {
+		return (
+			<div className='game-wrapper'>
+				<div className='logout-wrapper'>
+					<button
+						className='nes-btn'
+						id='logout-button'
+						type='button'
+						onClick={this.logout}
+					>
+						<i className='nes-icon close' />
+					</button>
+				</div>
+				<div className='player-panel'>
+					<div className='controls-wrapper'>
+						<Controls
+							data={this.state}
+							takeit={this.take}
+							dropit={this.drop}
+							sellit={this.sell}
+							status={this.status}
+							move={this.movePlayer}
+							examine={this.examine}
+							autoTraversal={this.autoTraversal}
+							ghostCarry={this.ghostCarry}
+							ghostReceive={this.ghostReceive}
+							praying={this.shrine}
+							wear={this.wear}
+							undress={this.undress}
+							flight={this.fly}
+						/>
+					</div>
+					<div className='textbox-wrapper'>
+						<TextBox info={this.state} />
+					</div>
+				</div>
+				<Graph />
+				<RoomInfo {...this.state} />
+			</div>
+		)
+	}
 }

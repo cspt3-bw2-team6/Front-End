@@ -34,9 +34,12 @@ function Controls(props) {
         Automate
       </button>
       <div>
-        <button type="button" onClick={props.praying} className="nes-btn">Pray</button> 
+        <button type="button" onClick={props.takeit} className="nes-btn" />
+        <button type="button" onClick={props.dropit} className="nes-btn" />
+        <button type="button" onClick={props.sellit} className="nes-btn" />
+        <button type="button" onClick={props.praying} className="nes-btn" />
+        <button type="button" className="nes-btn" onClick={props.examine} />
         <button type="button" onClick={props.status} className="nes-btn">Status</button> 
-      
       </div>
       
       <TextInput

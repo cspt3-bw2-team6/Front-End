@@ -26,6 +26,7 @@ function Controls(props) {
         :<div></div>}
       </div>
       <button
+        room={props}
         type="button"
         onClick={props.autoTraversal}
         id="automate"

@@ -256,7 +256,7 @@ export default class Game extends Component {
 	getProof = () => {
 		axiosWithAuth
 			.axiosHeaders()
-			.get('/api/bc/last_proof/')
+			.get('/api/bc/last_proof')
 			.then(res => {
 				console.log('GET PROOF',res.data)
 			})
@@ -266,14 +266,22 @@ export default class Game extends Component {
 	getBalance = () => {
 		axiosWithAuth
 			.axiosHeaders()
-			.get('/api/bc/get_balance/')
+			.get('/api/bc/get_balance')
 			.then(res => {
 				console.log('GET BALANCE',res.data)
 			})
 			.catch(err => console.log(err))
 	}
 
-
+	transmogrify = item => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/transmogrify', { name: `${item}` })
+			.then(res => {
+				console.log('NEW PROOF',res)
+			})
+			.catch(err => console.log(err))
+	}
 
 	logout = () => {
 		this.saveMap(this.state.map)
@@ -328,6 +336,7 @@ export default class Game extends Component {
 			  mine={this.mine}
 			  getProof ={this.getProof}
 			  getBalance={this.getBalance}
+			  transmogrify={this.transmogrify}
             />
           </div>
           <div className="textbox-wrapper">

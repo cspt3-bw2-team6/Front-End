@@ -8,7 +8,8 @@ import './Game.css'
 import traverse from '../../functions/traverseRooms'
 
 export default class Game extends Component {
-	  state = {
+	state = {
+
 		uuid: '',
 		room_id: 0,
 		name: '',
@@ -142,30 +143,30 @@ export default class Game extends Component {
 		  .catch(err => console.log(err));
 	  };
 
-  status = checkStatus => {
-    axiosWithAuth
-      .axiosHeaders()
-      .post("/api/adv/status", { checkStatus })
-      .then(res => {
-        console.log(res);
-        return this.refresh(res.data);
-      })
-      .catch(err => console.log(err));
-  };
+	status = checkStatus => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/status', { checkStatus })
+			.then(res => {
+				console.log(res)
+				return this.refresh(res.data)
+			})
+			.catch(err => console.log(err))
+	}
 
-  examine = subject => {
-    // subject parameter is string with name of object or player
-    axiosWithAuth
-      .axiosHeaders()
-      .post("/api/adv/examine", { name: `${subject}` })
-      .then(res => {
-        console.log("examine response", res.data);
-        this.refresh(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+	examine = subject => {
+		// subject parameter is string with name of object or player
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/examine', { name: `${subject}` })
+			.then(res => {
+				console.log('examine response', res.data)
+				this.refresh(res.data)
+			})
+			.catch(err => {
+				console.log(err)
+			})
+	}
 
   wear = item => {
     axiosWithAuth
@@ -183,10 +184,7 @@ export default class Game extends Component {
 			.post('/api/adv/undress', { name: `${item}` })
 			.then(res => {
 				console.log('UNDRESS', res.data)
-				this.refresh(res.data)
-			})
-			.catch(err => console.log(err))
-	}
+    }
 
 	change = name => {
 		axiosWithAuth
@@ -194,10 +192,7 @@ export default class Game extends Component {
 			.post('/api/adv/change_name', { name: `${name}` })
 			.then(res => {
 				console.log('NEW NAME',res)
-				this.refresh(res.data)
-			})
-			.catch(err => console.log(err))
-	}
+    }
 
 	ghostCarry = item => {
 		axiosWithAuth
@@ -226,11 +221,6 @@ export default class Game extends Component {
 			.axiosHeaders()
 			.post('/api/api/adv/fly', { direction: `${direction}` })
 			.then(res => {
-				console.log('FLIGHT',res)
-				this.refresh(res.data)
-			})
-			.catch(err => console.log(err))
-	}
 
 	shrine = () => {
 		axiosWithAuth
@@ -262,41 +252,45 @@ export default class Game extends Component {
 		  });
 	  }
 
-	render() {
-		return (
-		  <div className="game-wrapper">
-			<div className="logout-wrapper">
-			  <button
-				className="nes-btn"
-				id="logout-button"
-				type="button"
-				onClick={this.logout}
-			  >
-				<i className="nes-icon close" />
-			  </button>
-			</div>
-			<div className="player-panel">
-			  <div className="controls-wrapper">
-				<Controls
-				  data={this.state}
-				  takeit={this.take}
-				  dropit={this.drop}
-				  sell={this.sell}
-				  move={this.movePlayer}
-				  examine={this.examine}
-				  autoTraversal={this.autoTraversal}
-				  ghostCarry={this.ghostCarry}
-				  ghostReceive={this.ghostReceive}
-				  praying={this.shrine} 
-				  status={this.status}/>
-			  </div>
-			  <div className="textbox-wrapper">
-				<TextBox info={this.state} />
-			  </div>
-			</div>
-			<Graph />
-			<RoomInfo {...this.state} />
-		  </div>
-		);
-	  }
-	}
+  render() {
+    return (
+      <div className="game-wrapper">
+        <div className="logout-wrapper">
+          <button
+            className="nes-btn"
+            id="logout-button"
+            type="button"
+            onClick={this.logout}
+          >
+            <i className="nes-icon close" />
+          </button>
+        </div>
+        <div className="player-panel">
+          <div className="controls-wrapper">
+            <Controls
+              data={this.state}
+              takeit={this.take}
+			        dropit={this.drop}
+			        sellit={this.sell}
+			        status={this.status}
+              move={this.movePlayer}
+              examine={this.examine}
+              autoTraversal={this.autoTraversal}
+              ghostCarry={this.ghostCarry}
+              ghostReceive={this.ghostReceive}
+			        praying={this.shrine}
+			        wear={this.wear}
+			        undress={this.undress} />
+          </div>
+          <div className="textbox-wrapper">
+            <TextBox info={this.state} />
+          </div>
+        </div>
+        <Graph />
+        <RoomInfo {...this.state} />
+      </div>
+    );
+  }
+
+}
+

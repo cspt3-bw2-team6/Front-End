@@ -258,7 +258,7 @@ export default class Game extends Component {
 			.axiosHeaders()
 			.get('/api/bc/last_proof')
 			.then(res => {
-				console.log('GET PROOF',res.data)
+				console.log('GET PROOF',{last_proof: res.data})
 			})
 			.catch(err => console.log(err))
 	}

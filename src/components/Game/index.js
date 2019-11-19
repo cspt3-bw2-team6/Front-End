@@ -232,6 +232,14 @@ export default class Game extends Component {
 			.catch(err => console.log(err))
 	}
 
+	changeName = newName => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/change_name', { name: `${newName}` })
+			.then(res => {
+				console.log('NEW NAME',res)
+			})
+	}
 
 	logout = () => {
 		this.saveMap(this.state.map)
@@ -282,6 +290,7 @@ export default class Game extends Component {
               wear={this.wear}
 			  undress={this.undress}
 			  fly={this.fly}
+			  changeName={this.changeName}
             />
           </div>
           <div className="textbox-wrapper">

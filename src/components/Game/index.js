@@ -221,11 +221,75 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
-  logout = () => {
-    this.saveMap(this.state.map);
-    localStorage.removeItem("key");
-    this.props.history.push("/");
-  };
+
+
+	fly = direction => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/api/adv/fly', { direction: `${direction}` })
+			.then(res => {
+				console.log('FLIGHT', res)
+				this.refresh(res.data)
+			})
+			.catch(err => console.log(err))
+	}
+
+	changeName = newName => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/change_name', { name: `${newName}` })
+			.then(res => {
+				console.log('NEW NAME',res)
+			})
+			.catch(err => console.log(err))
+	}
+
+	//Lambda Coin Functions
+	mine = new_proof => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/bc/mine', { proof: `${new_proof}` })
+			.then(res => {
+				console.log('NEW PROOF',res)
+			})
+			.catch(err => console.log(err))
+	}
+
+	getProof = () => {
+		axiosWithAuth
+			.axiosHeaders()
+			.get('/api/bc/last_proof')
+			.then(res => {
+				console.log('GET PROOF',{last_proof: res.data})
+			})
+			.catch(err => console.log(err))
+	}
+
+	getBalance = () => {
+		axiosWithAuth
+			.axiosHeaders()
+			.get('/api/bc/get_balance')
+			.then(res => {
+				console.log('GET BALANCE',res.data)
+			})
+			.catch(err => console.log(err))
+	}
+
+	transmogrify = item => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/transmogrify', { name: `${item}` })
+			.then(res => {
+				console.log('NEW PROOF',res)
+			})
+			.catch(err => console.log(err))
+	}
+
+	logout = () => {
+		this.saveMap(this.state.map)
+		localStorage.removeItem('key')
+		this.props.history.push('/')
+	}
 
   componentDidMount() {
     this.loadMap();
@@ -268,7 +332,13 @@ export default class Game extends Component {
               ghostReceive={this.ghostReceive}
               praying={this.shrine}
               wear={this.wear}
-              undress={this.undress}
+			  undress={this.undress}
+			  fly={this.fly}
+			  changeName={this.changeName}
+			  mine={this.mine}
+			  getProof ={this.getProof}
+			  getBalance={this.getBalance}
+			  transmogrify={this.transmogrify}
             />
           </div>
           <div className="textbox-wrapper">

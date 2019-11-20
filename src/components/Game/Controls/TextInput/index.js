@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "nes.css/css/nes.min.css";
+import "../Controls.css"
 
 // basic textbox and button combo
 // props include
@@ -22,6 +23,7 @@ function TextInput(props) {
         value={text}
         onChange={e => setText(e.target.value)}
       />
+      <div className="button-group">
       <button className="nes-btn" onClick={() => props.primaryFunction(text)}>
         {props.activity1}
       </button>
@@ -33,6 +35,47 @@ function TextInput(props) {
           {props.activity2}
         </button>
       )}
+       {!!props.thirdFunction && (
+        <button
+          className="nes-btn"
+          onClick={() => props.thirdFunction(text)}
+        >
+          {props.activity3}
+        </button>
+      )}
+       {!!props.fourthFunction && (
+        <button
+          className="nes-btn"
+          onClick={() => props.fourthFunction(text)}
+        >
+          {props.activity4}
+        </button>
+      )}
+        {!!props.fifthFunction && (
+        <button
+          className="nes-btn"
+          onClick={() => props.fifthFunction(text)}
+        >
+          {props.activity5}
+        </button>
+      )}
+         {!!props.sixthFunction && (
+        <button
+          className="nes-btn"
+          onClick={() => props.sixthFunction(text)}
+        >
+          {props.activity6}
+        </button>
+      )}
+      {!!props.seventhFunction && (
+        <button
+          className="nes-btn"
+          onClick={() => props.seventhFunction(text)}
+        >
+          {props.activity7}
+        </button>
+      )}
+      </div>
     </div>
   );
 }

@@ -53,9 +53,9 @@ function Controls(props) {
       
       <TextInput
         activity1={"Examine"}
-        activity2={"Sell"}
+        activity2={"Change Name"}
         primaryFunction={props.examine}
-        secondaryFunction={props.sell}
+        secondaryFunction={props.changeName}
         label="Item or Player Name"
       />
       

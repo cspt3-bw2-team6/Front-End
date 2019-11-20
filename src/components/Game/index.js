@@ -7,6 +7,8 @@ import axiosWithAuth from '../../utilities/axiosWithAuth'
 import './Game.css'
 import traverse from '../../functions/traverseRooms'
 
+import '../../functions/miner';
+
 export default class Game extends Component {
 	state = {
 		uuid: '',

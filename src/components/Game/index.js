@@ -233,7 +233,7 @@ export default class Game extends Component {
       .axiosHeaders()
       .get("/api/adv/init/")
       .then(res => {
-        console.log(res);
+        console.log('chrobj from game.js',res);
         this.setState({
           ...res.data
         });

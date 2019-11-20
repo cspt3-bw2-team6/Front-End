@@ -5,7 +5,7 @@ import "nes.css/css/nes.min.css";
 import "./Controls.css";
 
 function Controls(props) {
-  console.log(props,'controls');
+  // console.log(props,'controls');
   return (
     <div className="controls-wrapper nes-container is-rounded">
       <div className="button-wrapper">

@@ -1,0 +1,9 @@
+div .map-wrapper {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+}
+
+div .row-wrapper {
+    display: flex;
+}

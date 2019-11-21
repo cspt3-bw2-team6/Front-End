@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import Controls from "./Controls";
 import TextBox from "./TextBox";
-import Graph from "./Graph/";
+import GameMap from "./GameMap";
 import RoomInfo from "./RoomInfo";
 import axiosWithAuth from "../../utilities/axiosWithAuth";
 import "./Game.css";
 import traverse from "../../functions/traverseRooms";
 
-import '../../functions/miner';
+import "../../functions/miner";
 
 export default class Game extends Component {
   state = {
@@ -42,7 +42,7 @@ export default class Game extends Component {
 
   // load map object to state from local storage
   loadMap = () => {
-    const yourMap = localStorage.getItem("map");
+    const yourMap = localStorage.getItem("visited");
     if (!!yourMap) {
       this.setState({
         map: JSON.parse(yourMap)
@@ -50,12 +50,15 @@ export default class Game extends Component {
     }
   };
 
-  autoTraversal = (room) => {
-    console.log('in auto call of game index')
+  autoTraversal = room => {
+    console.log("in auto call of game index");
     traverse(this.state);
-  }
+  };
 
   movePlayer = direction => {
+    if (!Object.keys(this.state.map).includes(this.state.room_id)) {
+      this.mapNewRoom(this.state);
+    }
     axiosWithAuth
       .axiosHeaders()
       .post("/api/adv/move", { direction })
@@ -223,75 +226,73 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
+  fly = direction => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/api/adv/fly", { direction: `${direction}` })
+      .then(res => {
+        console.log("FLIGHT", res);
+        this.refresh(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
+  changeName = newName => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/change_name", { name: `${newName}` })
+      .then(res => {
+        console.log("NEW NAME", res);
+      })
+      .catch(err => console.log(err));
+  };
 
-	fly = direction => {
-		axiosWithAuth
-			.axiosHeaders()
-			.post('/api/api/adv/fly', { direction: `${direction}` })
-			.then(res => {
-				console.log('FLIGHT', res)
-				this.refresh(res.data)
-			})
-			.catch(err => console.log(err))
-	}
+  //Lambda Coin Functions
+  mine = new_proof => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/bc/mine", { proof: `${new_proof}` })
+      .then(res => {
+        console.log("NEW PROOF", res);
+      })
+      .catch(err => console.log(err));
+  };
 
-	changeName = newName => {
-		axiosWithAuth
-			.axiosHeaders()
-			.post('/api/adv/change_name', { name: `${newName}` })
-			.then(res => {
-				console.log('NEW NAME',res)
-			})
-			.catch(err => console.log(err))
-	}
+  getProof = () => {
+    axiosWithAuth
+      .axiosHeaders()
+      .get("/api/bc/last_proof")
+      .then(res => {
+        console.log("GET PROOF", { last_proof: res.data });
+      })
+      .catch(err => console.log(err));
+  };
 
-	//Lambda Coin Functions
-	mine = new_proof => {
-		axiosWithAuth
-			.axiosHeaders()
-			.post('/api/bc/mine', { proof: `${new_proof}` })
-			.then(res => {
-				console.log('NEW PROOF',res)
-			})
-			.catch(err => console.log(err))
-	}
+  getBalance = () => {
+    axiosWithAuth
+      .axiosHeaders()
+      .get("/api/bc/get_balance")
+      .then(res => {
+        console.log("GET BALANCE", res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
-	getProof = () => {
-		axiosWithAuth
-			.axiosHeaders()
-			.get('/api/bc/last_proof')
-			.then(res => {
-				console.log('GET PROOF',{last_proof: res.data})
-			})
-			.catch(err => console.log(err))
-	}
+  transmogrify = item => {
+    axiosWithAuth
+      .axiosHeaders()
+      .post("/api/adv/transmogrify", { name: `${item}` })
+      .then(res => {
+        console.log("NEW PROOF", res);
+      })
+      .catch(err => console.log(err));
+  };
 
-	getBalance = () => {
-		axiosWithAuth
-			.axiosHeaders()
-			.get('/api/bc/get_balance')
-			.then(res => {
-				console.log('GET BALANCE',res.data)
-			})
-			.catch(err => console.log(err))
-	}
-
-	transmogrify = item => {
-		axiosWithAuth
-			.axiosHeaders()
-			.post('/api/adv/transmogrify', { name: `${item}` })
-			.then(res => {
-				console.log('NEW PROOF',res)
-			})
-			.catch(err => console.log(err))
-	}
-
-	logout = () => {
-		this.saveMap(this.state.map)
-		localStorage.removeItem('key')
-		this.props.history.push('/')
-	}
+  logout = () => {
+    this.saveMap(this.state.map);
+    localStorage.removeItem("key");
+    this.props.history.push("/");
+  };
 
   componentDidMount() {
     this.loadMap();
@@ -299,7 +300,7 @@ export default class Game extends Component {
       .axiosHeaders()
       .get("/api/adv/init/")
       .then(res => {
-        console.log('chrobj from game.js',res);
+        console.log("chrobj from game.js", res);
         this.setState({
           ...res.data
         });
@@ -334,20 +335,23 @@ export default class Game extends Component {
               ghostReceive={this.ghostReceive}
               praying={this.shrine}
               wear={this.wear}
-			  undress={this.undress}
-			  fly={this.fly}
-			  changeName={this.changeName}
-			  mine={this.mine}
-			  getProof ={this.getProof}
-			  getBalance={this.getBalance}
-			  transmogrify={this.transmogrify}
+              undress={this.undress}
+              fly={this.fly}
+              changeName={this.changeName}
+              mine={this.mine}
+              getProof={this.getProof}
+              getBalance={this.getBalance}
+              transmogrify={this.transmogrify}
             />
           </div>
           <div className="textbox-wrapper">
             <TextBox info={this.state} />
           </div>
         </div>
-        <Graph />
+        <GameMap
+          gameMap={this.state.map}
+          currentRoom={this.state.coordinates}
+        />
         <RoomInfo {...this.state} />
       </div>
     );

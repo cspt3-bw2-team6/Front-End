@@ -138,7 +138,7 @@ export default class Game extends Component {
   sell = treasure => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/sell", { name: `${treasure}` })
+      .post("/api/adv/sell", { name: `${treasure}`, confirm: 'yes' })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -146,10 +146,10 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
-  status = checkStatus => {
+  status = () => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/status", { checkStatus })
+      .post("/api/adv/status")
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -226,37 +226,38 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
-  fly = direction => {
-    axiosWithAuth
-      .axiosHeaders()
-      .post("/api/api/adv/fly", { direction: `${direction}` })
-      .then(res => {
-        console.log("FLIGHT", res);
-        this.refresh(res.data);
-      })
-      .catch(err => console.log(err));
-  };
 
-  changeName = newName => {
-    axiosWithAuth
-      .axiosHeaders()
-      .post("/api/adv/change_name", { name: `${newName}` })
-      .then(res => {
-        console.log("NEW NAME", res);
-      })
-      .catch(err => console.log(err));
-  };
+	fly = direction => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/api/adv/fly', { direction: `${direction}` })
+			.then(res => {
+				console.log('FLIGHT', res)
+				this.refresh(res.data)
+			})
+			.catch(err => console.log(err))
+	}
 
-  //Lambda Coin Functions
-  mine = new_proof => {
-    axiosWithAuth
-      .axiosHeaders()
-      .post("/api/bc/mine", { proof: `${new_proof}` })
-      .then(res => {
-        console.log("NEW PROOF", res);
-      })
-      .catch(err => console.log(err));
-  };
+	changeName = newName => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/adv/change_name', { name: `${newName}`, confirm: 'aye' })
+			.then(res => {
+				console.log('NEW NAME',res)
+			})
+			.catch(err => console.log(err))
+	}
+
+	//Lambda Coin Functions
+	mine = new_proof => {
+		axiosWithAuth
+			.axiosHeaders()
+			.post('/api/bc/mine', { proof: `${new_proof}` })
+			.then(res => {
+				console.log('NEW PROOF',res)
+			})
+			.catch(err => console.log(err))
+	}
 
   getProof = () => {
     axiosWithAuth

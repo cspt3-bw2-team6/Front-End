@@ -3,8 +3,9 @@ import axios from 'axios';
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
-
+//function pasjhhsges thhhe afgp]i tghge direction n s e w so it will 
 async function playerMove(direction) {
+    console.log('Watch',direction)
     const backendUrl = 'https://lambda-treasure-hunt.herokuapp.com'
     let nextRoom = null;
 
@@ -15,21 +16,25 @@ async function playerMove(direction) {
             'Content-Type': 'application/json',
             'Authorization': auth
         },
-
+        
     }
 
-console.log('traveled', options, direction)
+// console.log('traveled', options, direction)
+
     const result = await axios
         .post(`${backendUrl}/api/adv/move/`, { 'direction': direction }, options);
-    console.log(result.data);
+    // console.log(result.data);
     nextRoom = result.data;
     console.log('nextroom', nextRoom);
     return nextRoom;
     }
-    function traverse(room, currentRooms) {
+    function traverse(room) {
+
+        let currentRooms = JSON.parse(localStorage.getItem('map'))
         // console.log(room)
-        currentRooms[room.room_id] = room
-        let allVisited = JSON.parse(localStorage.getItem('allVisited'))
+        currentRooms[room.roomId] = room
+
+        let allVisited = JSON.parse(localStorage.getItem('visited'))
         // return currentRooms
     
         let traversalPath = []
@@ -118,11 +123,11 @@ console.log('traveled', options, direction)
                 console.log(searchRoom)
                 if (!(node in visited_search)) {
                     visited_search.add(node)
-                    console.log(visited_search)
+                    // console.log(visited_search)
                 }
 
                 for (let direction in searchRoom) {
-                    console.log('-------direction---', direction)
+                    // console.log('-------direction---', direction)
                     if (searchRoom[direction] === '?') {
                         foundPath = path
                         found += 1
@@ -134,24 +139,24 @@ console.log('traveled', options, direction)
 
                 let exploredDirections = []
                 for (let direction in searchRoom) {
-                    console.log('e******direction---', direction)
+                    // console.log('e******direction---', direction)
                     if (searchRoom[direction] !== '?') {
                         let value = searchRoom[direction]
-                        console.log('v and p', value, path)
+                        // console.log('v and p', value, path)
                         if (!(path.includes(value))) {
                             exploredDirections.push(direction)
                         }
                     }
                 }
-                console.log('explored directions', exploredDirections)
+                // console.log('explored directions', exploredDirections)
                 for (let direction in exploredDirections) {
                     direction = exploredDirections[direction]
-                    console.log('direction---------', direction)
+                    // console.log('direction---------', direction)
                     reverseTraversal.push(direction)
                     let new_path = [...path]
-                    console.log('search room direction', direction, searchRoom[direction])
+                    // console.log('search room direction', direction, searchRoom[direction])
                     new_path.push(searchRoom[direction])
-                    console.log('newpath', new_path)
+                    // console.log('newpath', new_path)
                     stack.push(new_path)
                 }
             }
@@ -160,9 +165,9 @@ console.log('traveled', options, direction)
             function startBackTrack() {
                 async function backTrack() {
                     if (trackIndex >= foundPath.length) {
-                        // trackIndex = 1
+                        trackIndex = 1
                         currRoom.cooldown += currRoom.cooldown
-                        console.log('____returnFinish room____', currRoom)
+                        // console.log('____returnFinish room____', currRoom)
                         return currRoom
                         // return setTimeout(() => roomStep(), currRoom.cooldown * 1000);
                     }
@@ -170,12 +175,14 @@ console.log('traveled', options, direction)
 
                     console.log('end-- pathroom', pathRoom, previous)
 
-                    for (let way in visited[previous]['exits']) {
-                        console.log('end-- way', way)
+                    for (let way in visited[pathRoom]['exits']) {
+                        // console.log('end-- way', way)
                         if (visited[previous]['exits'][way] === pathRoom) {
                             console.log('way-- selected', way, visited[previous]['exits'])
                             console.log('currentroomReturn', currRoom)
+
                             currRoom = await playerMove(way)
+                            console.log(currRoom,'currentroomafter move is called')
                             let pathRoomId = currRoom.room_id
                             console.log('currentroomReturn2', pathRoomId, currRoom)
                             traversalPath.push(way)
@@ -204,10 +211,10 @@ console.log('traveled', options, direction)
         localStorage.setItem('visited', JSON.stringify(visited));
 
         let visitSize = Object.keys(visited).length
-        let allSize = Object.keys(JSON.parse(localStorage.getItem('allVisited'))).length
+        let allSize = Object.keys(JSON.parse(localStorage.getItem('visited'))).length
         // console.log('sizes --- --- ---', visitSize, allSize)
         if (visitSize > allSize) {
-            localStorage.setItem('allVisited', JSON.stringify(visited))
+            localStorage.setItem('visited', JSON.stringify(visited))
             allVisited = visited
         }
 

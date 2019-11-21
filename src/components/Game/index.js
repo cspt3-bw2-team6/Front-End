@@ -135,7 +135,7 @@ export default class Game extends Component {
   sell = treasure => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/sell", { name: `${treasure}` })
+      .post("/api/adv/sell", { name: `${treasure}`, confirm:"yes" })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -239,7 +239,7 @@ export default class Game extends Component {
 	changeName = newName => {
 		axiosWithAuth
 			.axiosHeaders()
-			.post('/api/adv/change_name', { name: `${newName}` })
+			.post('/api/adv/change_name', { name: `${newName}`, confirm: 'aye' })
 			.then(res => {
 				console.log('NEW NAME',res)
 			})

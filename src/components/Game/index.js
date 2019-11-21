@@ -135,7 +135,7 @@ export default class Game extends Component {
   sell = treasure => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/sell", { name: `${treasure}` })
+      .post("/api/adv/sell", { name: `${treasure}`, confirm: 'yes' })
       .then(res => {
         console.log(res);
         return this.refresh(res.data);
@@ -143,10 +143,10 @@ export default class Game extends Component {
       .catch(err => console.log(err));
   };
 
-  status = checkStatus => {
+  status = () => {
     axiosWithAuth
       .axiosHeaders()
-      .post("/api/adv/status", { checkStatus })
+      .post("/api/adv/status")
       .then(res => {
         console.log(res);
         return this.refresh(res.data);

@@ -2,47 +2,65 @@ import React from "react";
 import Tile from "./Tile";
 import "./GameMap.css";
 
+const makeRow = (length, item) => {
+  const row = Array(length).fill(item);
+  return [...row];
+};
+
 const GameMap = props => {
-  const row = new Array(75);
-  row.fill("?");
-  const gameMap = new Array(75);
-  gameMap.fill(row);
-
-  // console.log("empty", gameMap);
-
+  const gameMap = [];
+  for (let i = 0; i < 75; i++) {
+    gameMap.push([]);
+    for (let j = 0; j < 75; j++) {
+      gameMap[i].push("?");
+    }
+  }
   const visitedRooms = Object.entries(props.gameMap);
-
-  for (let [room_id, value] of visitedRooms) {
-    // console.log(key, value);
-    let point = value.coordinates
+  for (let [room_id, room] of visitedRooms) {
+    let coordinates = room.coordinates
       .replace("(", "")
       .replace(")", "")
-      .split(",");
-    let x = parseInt(point[0]);
-    let y = parseInt(point[1]);
-    gameMap[x - 1][y - 1] = {
+      .split(",")
+      .map(plot => parseInt(plot));
+    gameMap[coordinates[0]][coordinates[1]] = {
       room_id,
-      ...value
+      ...room
     };
-    // console.log(gameMap[y][x])
-    // gameMap[point[1]][point[0]] = {
-    //   room_id: key,
-    //   ...value
-    // };
-  }
-  // console.log(gameMap);
-
-  if (props.currentRoom) {
-    let currentPosition = props.currentRoom
+    if (props.currentRoom){ 
+    const currentRoom = props.currentRoom
       .replace("(", "")
       .replace(")", "")
-      .split(",");
-    gameMap[currentPosition[1]][currentPosition[0]] = "X";
+      .split(",")
+      .map(plot => parseInt(plot));
+    
+    gameMap[currentRoom[0]][currentRoom[1]] = "X";
+}
   }
+  // for (let index in visitedRooms) {
+  //   let room = visitedRooms[index];
+  //   let point = room[1].coordinates
+  //     .replace("(", "")
+  //     .replace(")", "")
+  //     .split(",");
+  //   let x = parseInt(point[0]) - 1;
+  //   let y = parseInt(point[1]) - 1;
+  //   gameMap[x][y] = {
+  //     room_id: room[0],
+  //     ...room[1]
+  //   };
+  //   console.log(room[1].coordinates, x, y, gameMap[y][x]);
+  // }
+
+  // if (props.currentRoom) {
+  //   let currentPosition = props.currentRoom
+  //     .replace("(", "")
+  //     .replace(")", "")
+  //     .split(",");
+  //   gameMap[currentPosition[1]][currentPosition[0]] = "X";
+  // }
   return (
     <div className="map-wrapper">
       {gameMap.map((row, index) => {
-        console.log(row, index);
         return (
           <div className="row-wrapper">
             {row.map(room => {
@@ -57,7 +75,6 @@ const GameMap = props => {
           </div>
         );
       })}
-      )}
     </div>
   );
 };

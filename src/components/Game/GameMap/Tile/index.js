@@ -7,8 +7,15 @@ const Tile = props => {
   } else if (props.exits) {
     const exits = Object.keys(props.exits).join(" ");
     const stringName = `map-tile ${exits}`;
-
-    return <div className={stringName} />;
+    if (props.title === "Shop") {
+      return <div className={stringName} id="shop" />;
+    } else if (props.title === "Wishing Well") {
+      return <div className={stringName} id="well" />;
+    } else if (props.title === "Pirate Ry's") {
+      return <div className={stringName} id="yarr" />
+    } else {
+      return <div className={stringName} />;
+    }
   } else {
     return <div className="map-tile unknown" />;
   }

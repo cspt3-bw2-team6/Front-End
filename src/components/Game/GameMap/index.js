@@ -69,7 +69,7 @@ const GameMap = props => {
               } else if (room === "X") {
                 return <Tile player key="player" />;
               } else {
-                return <Tile exits={room.exits} key={room.room_id} />;
+                return <Tile exits={room.exits} key={room.room_id} title={room.title} />;
               }
             })}
           </div>

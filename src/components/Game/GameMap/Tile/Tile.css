@@ -33,3 +33,15 @@ div #player {
   width: 10px;
   background-color: red;
 }
+
+div #shop {
+  background-color: purple;
+}
+
+div #well {
+  background-color: dodgerblue;
+}
+
+div #yarr {
+  background-color: hotpink;
+}

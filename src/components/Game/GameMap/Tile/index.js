@@ -1,9 +1,10 @@
 import React from "react";
 import "./Tile.css";
+import { string } from "postcss-selector-parser";
 
 const Tile = props => {
   if (props.player) {
-    return <div id="player" />;
+    return <div id="player" className="map-tile"/>;
   } else if (props.exits) {
     const exits = Object.keys(props.exits).join(" ");
     const stringName = `map-tile ${exits}`;
@@ -12,7 +13,9 @@ const Tile = props => {
     } else if (props.title === "Wishing Well") {
       return <div className={stringName} id="well" />;
     } else if (props.title === "Pirate Ry's") {
-      return <div className={stringName} id="yarr" />
+      return <div className={stringName} id="yarr" />;
+    } else if (props.title === "Linh's Shrine") {
+      return <div className={stringName} id="shrine1" />;
     } else {
       return <div className={stringName} />;
     }

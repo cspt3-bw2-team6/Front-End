@@ -42,6 +42,7 @@ function Controls(props) {
         <button type="button" onClick={props.praying} className="nes-btn" >Pray</button>
         
         <button type="button" onClick={props.status} className="nes-btn">Status</button> 
+        <button type="button" onClick={props.mine} className="nes-btn">Mine</button> 
       </div>
       
       {/* <TextInput

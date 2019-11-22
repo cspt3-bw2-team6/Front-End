@@ -42,7 +42,7 @@ export default class Game extends Component {
 
   // load map object to state from local storage
   loadMap = () => {
-    const yourMap = localStorage.getItem("visited");
+    const yourMap = localStorage.getItem("map");
     if (!!yourMap) {
       this.setState({
         map: JSON.parse(yourMap)

@@ -22,7 +22,7 @@ const GameMap = props => {
       .replace(")", "")
       .split(",")
       .map(plot => parseInt(plot));
-    gameMap[coordinates[0]][coordinates[1]] = {
+    gameMap[74 - coordinates[1]][coordinates[0]] = {
       room_id,
       ...room
     };
@@ -33,7 +33,7 @@ const GameMap = props => {
       .split(",")
       .map(plot => parseInt(plot));
     
-    gameMap[currentRoom[0]][currentRoom[1]] = "X";
+    gameMap[74 - currentRoom[1]][currentRoom[0]] = "X";
 }
   }
   // for (let index in visitedRooms) {

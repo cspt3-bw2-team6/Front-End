@@ -3,10 +3,7 @@ div .map-tile {
   width: 10px;
   height: 10px;
   background-color: darkgoldenrod;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-bottom: 1px solid white;
-  border-right: 1px solid white;
+  border: 1px solid black;
   border-collapse: separate;
 }
 
@@ -16,19 +13,19 @@ div .unknown {
 }
 
 div .n {
-  border-top: 0px;
+  border-top: none;
 }
 
 div .w {
-  border-left: 0px;
+  border-left: none;
 }
 
 div .s {
-  border-bottom: 0px;
+  border-bottom: none;
 }
 
 div .e {
-  border-right: 0px;
+  border-right: none;
 }
 
 div #player {

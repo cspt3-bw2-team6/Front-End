@@ -1,0 +1,35 @@
+div .map-tile {
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  background-color: darkgoldenrod;
+  border: 1px solid black;
+  border-collapse: separate;
+}
+
+div .unknown {
+  background-color: lime;
+  border: none;
+}
+
+div .n {
+  border-top: none;
+}
+
+div .w {
+  border-left: none;
+}
+
+div .s {
+  border-bottom: none;
+}
+
+div .e {
+  border-right: none;
+}
+
+div #player {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+}
